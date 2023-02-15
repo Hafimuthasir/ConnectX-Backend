@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-4^a=xxmslgin-)60h_)z_9ypf6%+tc9q@feas*m2pr@r1@1k7o
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['107.22.145.144','localhost','grapicscard.ga','www.grapicscard.ga']
+ALLOWED_HOSTS = ['107.22.145.144','localhost','grapicscard.ga','www.grapicscard.ga','']
 
 
 # Application definition
@@ -127,7 +127,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'pl9',
-        'USER':'connectuser',
+        'USER':'postgres',
         'PASSWORD':'admin',
         'HOST':'localhost'
     }

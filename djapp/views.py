@@ -14,6 +14,9 @@ from django.http import HttpResponse
 from rest_framework.decorators import api_view
 from rest_framework import status
 from djapp.task import celeryusing
+
+from django.core.mail import EmailMessage
+import uuid
 # Create your views here.
 
 
@@ -40,8 +43,19 @@ def register(request):
                 serializer.save()
             else:
                return Response(serializer.errors,status=status.HTTP_406_NOT_ACCEPTABLE) 
-            celeryusing.delay(email,username)
+            send_mail(email,username)
             return Response(200)
+        
+def send_mail(email,username):
+    subject = "Email verification"
+    myuuid = uuid.uuid4()
+    # baseUrl = "http://localhost:3000/emailverification/"
+    message = "https://master.d3emc9vq9tg0sv.amplifyapp.com/emailverification/"+str(myuuid)+"/"+username
+    email_from = "arshaachu215@gmail.com"
+    recipeint = [email]
+    email = EmailMessage(subject=subject,body=message,to=recipeint)
+    email.send()  
+        
 
 # @api_view(['POST'])
 # def login(request):
@@ -420,7 +434,7 @@ def celeryverify(request):
     user = User.objects.get(email=email)
     username = user.first_name
     print(email,username)
-    celeryusing.delay(email,username)
+    send_mail(email,username)
     return Response(200)
 
 
