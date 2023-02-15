@@ -127,8 +127,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'pl9',
-        'USER':'postgres',
-        'PASSWORD':'postgres',
+        'USER':'connectuser',
+        'PASSWORD':'admin',
         'HOST':'localhost'
     }
 }
