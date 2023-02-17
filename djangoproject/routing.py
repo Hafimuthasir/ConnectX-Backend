@@ -12,7 +12,7 @@ application=get_asgi_application()
 
 
 application = ProtocolTypeRouter({
-    "https": get_asgi_application(),
+    "http": get_asgi_application(),
 
     # WebSocket chat handler
     "websocket": AllowedHostsOriginValidator(
