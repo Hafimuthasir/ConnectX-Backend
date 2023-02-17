@@ -7,7 +7,7 @@ from django.urls import path
 from chat.consumers import *
 
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "djangoproject.settings")
 application=get_asgi_application()
 
 
