@@ -86,7 +86,7 @@ class Posts(models.Model):
     lang = models.CharField(max_length=100,blank=True)
     repo = models.CharField(max_length=1000,blank=True)
     is_z = models.BooleanField(default=False)
-    zfile = models.FileField(upload_to='C:/Users/AKAM/Desktop/React/week2/djangoproject/reactapp/src/uploads/zpostfile',blank=True)
+    zfile = models.FileField(upload_to='uploads/zpostfile',blank=True)
     zdescription = models.CharField(max_length=1000,blank=True)
     downloadsCount = models.IntegerField(default=0)
     is_premium = models.BooleanField(default=False)

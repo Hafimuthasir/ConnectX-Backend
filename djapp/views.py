@@ -14,7 +14,7 @@ from django.http import HttpResponse
 from rest_framework.decorators import api_view
 from rest_framework import status
 from djapp.task import celeryusing
-
+import boto3
 from django.core.mail import EmailMessage
 import uuid
 # Create your views here.
@@ -313,13 +313,24 @@ def dummyPurchase(request):
     
     
 
+# @api_view(['GET'])
+# def DownloadFile(self,filename):
+#     # with open('reactapp/src/uploads/zpostfile/FACE_MASK_fG5rUZ1.rar') as f:
+#     zip_file = open('reactapp/src/uploads/zpostfile/'+filename, 'rb')
+#     response = HttpResponse(zip_file, content_type='application/force-download')
+#     response['Content-Disposition'] = 'attachment; filename="%s"' % 'foo.zip'
+#     return response
+
 @api_view(['GET'])
-def DownloadFile(self,filename):
-    # with open('reactapp/src/uploads/zpostfile/FACE_MASK_fG5rUZ1.rar') as f:
-    zip_file = open('reactapp/src/uploads/zpostfile/'+filename, 'rb')
-    response = HttpResponse(zip_file, content_type='application/force-download')
-    response['Content-Disposition'] = 'attachment; filename="%s"' % 'foo.zip'
+def DownloadFile(request,pk):
+    my_model = Posts.objects.get(pk=pk)
+    s3 = boto3.client('s3')
+    response = HttpResponse(content_type='application/octet-stream')
+    response['Content-Disposition'] = f'attachment; filename="{my_model.zfile.name}"'
+    s3.download_file('dconnect-bucket-2', my_model.zfile.name, response)
     return response
+
+
 
 class addDownloadsCount(APIView):
     def post (self,request):

@@ -30,7 +30,7 @@ urlpatterns = [
     path('ProfileCounts/<id>',ProfileCounts,name='ProfileCounts'),
 
     path('dummyPurchase',dummyPurchase,name='dummyPurchase'),
-    path('DownloadFile/<str:filename>',DownloadFile,name='DownloadFile'),
+    path('DownloadFile/<pk>',DownloadFile,name='DownloadFile'),
     path('searchusers/<str:search>',searchUsers,name='searchUsers'),
     path('addDownloadsCount',addDownloadsCount.as_view(),name='addDownloadsCount'),
 
