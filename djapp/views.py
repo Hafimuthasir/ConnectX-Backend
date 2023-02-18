@@ -324,10 +324,23 @@ def dummyPurchase(request):
 @api_view(['GET'])
 def DownloadFile(request,pk):
     my_model = Posts.objects.get(pk=pk)
-    s3 = boto3.client('s3')
-    response = HttpResponse(content_type='application/octet-stream')
-    response['Content-Disposition'] = f'attachment; filename="{my_model.zfile.name}"'
-    s3.download_file('dconnect-bucket-2', my_model.zfile.name, response)
+    s3 = boto3.client (
+        's3',
+        aws_access_key_id='AKIA2F2N7KFNB5MFK5HF',
+        aws_secret_access_key='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'
+        )
+    filetype = my_model.zfile.name.split('.')[-1]
+    filename = my_model.zfile.name.split('/')[-1]
+    print('iiiiiiiiiii',filename)
+    response = HttpResponse(content_type='application/pdf')
+    
+    obj = s3.get_object(Bucket='dconnect-bucket-2', Key=my_model.zfile.name)
+    object_metadata = s3.head_object(Bucket='dconnect-bucket-2', Key=my_model.zfile.name)['Metadata']
+    
+    print('uuuuuu',object_metadata)
+    response.write(obj['Body'].read())
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+    print(response)
     return response
 
 
