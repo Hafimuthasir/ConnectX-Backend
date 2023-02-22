@@ -188,8 +188,8 @@ UNICODE_JSON = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER='arshaachu215@gmail.com'
-EMAIL_HOST_PASSWORD='uewxktwblcmunftp'
+EMAIL_HOST_USER='33live4code33@gmail.com'
+EMAIL_HOST_PASSWORD='updhtjsosdvrwaok'
 EMAIL_USE_TLS = True
 
 AWS_ACCESS_KEY_ID = 'AKIA2F2N7KFNB5MFK5HF'
