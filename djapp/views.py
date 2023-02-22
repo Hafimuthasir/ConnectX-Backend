@@ -17,6 +17,8 @@ from djapp.task import celeryusing
 import boto3
 from django.core.mail import EmailMessage
 import uuid
+from botocore.exceptions import ClientError
+from djangoproject import settings
 # Create your views here.
 
 
@@ -323,25 +325,35 @@ def dummyPurchase(request):
 
 @api_view(['GET'])
 def DownloadFile(request,pk):
-    my_model = Posts.objects.get(pk=pk)
+    obj = Posts.objects.get(pk=pk)
     s3 = boto3.client (
         's3',
-        aws_access_key_id='AKIA2F2N7KFNB5MFK5HF',
-        aws_secret_access_key='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'
+        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY
         )
-    filetype = my_model.zfile.name.split('.')[-1]
-    filename = my_model.zfile.name.split('/')[-1]
-    print('iiiiiiiiiii',filename)
-    response = HttpResponse(content_type='application/pdf')
+    # filetype = my_model.zfile.name.split('.')[-1]
+    # filename = my_model.zfile.name.split('/')[-1]
+    # print('iiiiiiiiiii',filename)
+    # response = HttpResponse(content_type='application/pdf')
     
-    obj = s3.get_object(Bucket='dconnect-bucket-2', Key=my_model.zfile.name)
-    object_metadata = s3.head_object(Bucket='dconnect-bucket-2', Key=my_model.zfile.name)['Metadata']
+    # obj = s3.get_object(Bucket='dconnect-bucket-2', Key=my_model.zfile.name)
+    # object_metadata = s3.head_object(Bucket='dconnect-bucket-2', Key=my_model.zfile.name)['Metadata']
     
-    print('uuuuuu',object_metadata)
-    response.write(obj['Body'].read())
-    response['Content-Disposition'] = f'attachment; filename="{filename}"'
-    print(response)
-    return response
+    # print('uuuuuu',object_metadata)
+    # response.write(obj['Body'].read())
+    # response['Content-Disposition'] = f'attachment; filename="{filename}"'
+    # print(response)
+    key = obj.zfile
+    try:
+        url = s3.generate_presigned_url('get_object',
+                                                     Params={'Bucket':settings.AWS_STORAGE_BUCKET_NAME,
+                                                             'Key': str(key)},
+                                                     ExpiresIn=3600)
+    except ClientError as e:
+        logging.error(e)
+        return Response(500)
+    
+    return Response(url)
 
 
 
@@ -464,6 +476,15 @@ def celeryverify(request):
 
 @api_view(['DELETE'])
 def deletePost(request,id):
-    obj = Posts.objects.get(id=id)
-    obj.delete()
+    instance = Posts.objects.get(id=id)
+    s3 = boto3.resource('s3',
+                        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+                        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY)
+    bucket = s3.Bucket(settings.AWS_STORAGE_BUCKET_NAME)
+    file_path = str(instance.zfile)
+    try:
+        bucket.Object(file_path).delete()
+    except:
+        pass
+    instance.delete()
     return Response(200)
