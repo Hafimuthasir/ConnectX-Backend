@@ -8,18 +8,18 @@ from chat.consumers import *
 
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "djangoproject.settings")
-application=get_asgi_application()
+# application=get_asgi_application()
 
 
 application = ProtocolTypeRouter({
     "http": get_asgi_application(),
 
     # WebSocket chat handler
-    "websocket": AllowedHostsOriginValidator(
+    "websocket": 
         AuthMiddlewareStack(
             URLRouter([
                path('ws/chat/<int:roomid>/<int:senderid>/',ChatConsumer.as_asgi()),
             ])
         )
-    ),
+
 })
