@@ -53,7 +53,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Posts
-        fields = ('id', 'file', 'mediatype', 'caption', 'created_at', 'likes', 'userid', 'like', 'comment', 'username', 'profile', 'bio',
+        fields = ('id', 'file','file2','file3','mediatype','mediatype2','mediatype3', 'caption', 'created_at', 'likes', 'userid', 'like', 'comment', 'username', 'profile', 'bio',
                   'lang', 'repo', 'is_z', 'zfile', 'zdescription', 'is_premium', 'price', 'prime',
                   )
 

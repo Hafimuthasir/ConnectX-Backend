@@ -11,7 +11,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializer import *
 from django.core.files import File
 from django.http import HttpResponse
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view,permission_classes
 from rest_framework import status
 from djapp.task import celeryusing
 import boto3
@@ -19,6 +19,8 @@ from django.core.mail import EmailMessage
 import uuid
 from botocore.exceptions import ClientError
 from djangoproject import settings
+from rest_framework.permissions import IsAuthenticated
+
 # Create your views here.
 
 
@@ -52,7 +54,7 @@ def send_mail(email,username):
     subject = "Email verification"
     myuuid = uuid.uuid4()
     # baseUrl = "http://localhost:3000/emailverification/"
-    message = "https://master.d3emc9vq9tg0sv.amplifyapp.com/emailverification/"+str(myuuid)+"/"+username
+    message = "http://localhost:3000/emailverification/"+str(myuuid)+"/"+username
     email_from = "33live4code33@gmail.com"
     recipeint = [email]
     email = EmailMessage(subject=subject,body=message,to=recipeint)
@@ -151,13 +153,16 @@ class uploadStory(APIView):
             return Response({'error':serializer.errors},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+
 @api_view(['GET'])
+# @permission_classes([IsAuthenticated])
 def feedPosts(request):
     print('lol in feed')
     allPost = Posts.objects.all().order_by('-id')
     serializer = PostSerializer(allPost,many=True)
-
     return Response(serializer.data)
+
+
 
 @api_view(['GET'])
 def getStory(request):
@@ -200,11 +205,12 @@ def getCurStory(request,id):
 
 @api_view(['POST'])
 def subComment(request):
-    print('lol in com',request.data)
     serializer=CommentSerializer(data=request.data,partial=True)
     serializer.is_valid(raise_exception=True)
     serializer.save()
-    return Response('hai')
+    instance = Posts.objects.get(id = request.data['postid'])
+    res_serializer = PostSerializer(instance)
+    return Response(res_serializer.data)
 
 
 @api_view(['POST'])
