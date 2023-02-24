@@ -42,7 +42,7 @@ def register(request):
         if checkem:
             return Response({'error':'email already exist'},status=status.HTTP_409_CONFLICT)
         else:
-            request.data['is_verified':True]
+            
             serializer = UserSerializers(data=request.data,partial=True)
             if serializer.is_valid():
                 serializer.save()
