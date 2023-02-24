@@ -44,7 +44,7 @@ def register(request):
         else:
             request.data['is_verified':True]
             serializer = UserSerializers(data=request.data,partial=True)
-            if serializer.is_valid()
+            if serializer.is_valid():
                 serializer.save()
             else:
                return Response(serializer.errors,status=status.HTTP_406_NOT_ACCEPTABLE) 
