@@ -42,13 +42,15 @@ def register(request):
         if checkem:
             return Response({'error':'email already exist'},status=status.HTTP_409_CONFLICT)
         else:
+            request.data['is_verified':True]
             serializer = UserSerializers(data=request.data,partial=True)
-            if serializer.is_valid():
+            if serializer.is_valid()
                 serializer.save()
             else:
                return Response(serializer.errors,status=status.HTTP_406_NOT_ACCEPTABLE) 
             send_mail(email,username)
             return Response(200)
+        
         
 def send_mail(email,username):
     subject = "Email verification"
