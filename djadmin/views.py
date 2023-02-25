@@ -26,18 +26,17 @@ def logadmin(request):
 
 @api_view(['GET', 'POST'])
 def userlist(request):
-    print('in userlist', request.data)
     if request.data:
-        if request.data['auth']:
-            print("yes")
+        # if request.data['auth']:
+        #     print("yes")
             allusers = User.objects.all()
             serializer = UserSerializers(allusers, many=True)
             print(allusers)
             print(serializer.data)
             return Response(serializer.data)
     else:
-        print("no")
-        return Response("Not authenticated")
+        # print("no")
+        return Response(500)
 
 
 @api_view(['PUT'])
@@ -70,6 +69,19 @@ def deleteuser(request, id):
             user.is_blocked = False
         else:
             user.is_blocked = True
+        user.save()
+        return Response(200)
+    except:
+        return Response('User not found in the data')
+    
+@api_view(['POST'])
+def emailVerifyAdmin(request, id):
+    try:
+        user = User.objects.get(id=id)
+        if user.is_verified == True:
+            user.is_verified = False
+        else:
+            user.is_verified = True
         user.save()
         return Response(200)
     except:

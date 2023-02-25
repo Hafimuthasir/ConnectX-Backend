@@ -7,6 +7,7 @@ urlpatterns = [
     path('userlist',userlist,name='userlist'),
     path('edituser/<int:id>',edituser,name='edituser'),
     path('deleteuser/<int:id>',deleteuser,name='deleteuser'),
+     path('emailVerifyAdmin/<int:id>',emailVerifyAdmin,name='emailVerifyAdmin'),
     path('bussinessReq/<int:id>',BussinessReq,name='bussinessReq'),
     path('getbussinessReqs',getBussinessReqs,name='bussinessReq'),
     path('removebussreq/<int:id>',removeBussinessReq,name='removebussreq'),
