@@ -56,7 +56,7 @@ def send_mail(email,username):
     subject = "Email verification"
     myuuid = uuid.uuid4()
     # baseUrl = "http://localhost:3000/emailverification/"
-    message = "http://localhost:3000/emailverification/"+str(myuuid)+"/"+username
+    message = "https://master.d3emc9vq9tg0sv.amplifyapp.com/emailverification/"+str(myuuid)+"/"+username
     email_from = "33live4code33@gmail.com"
     recipeint = [email]
     email = EmailMessage(subject=subject,body=message,to=recipeint)
