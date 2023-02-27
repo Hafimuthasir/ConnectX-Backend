@@ -126,7 +126,7 @@ CHANNEL_LAYERS = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'connectx',
+        'NAME': 'connectxdb',
         'USER':'connectuser',
         'PASSWORD':'admin',
         'HOST':'localhost'
