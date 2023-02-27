@@ -176,6 +176,7 @@ def getStory(request):
     serializer = StorySerializer(Use,many=True)
     return Response(serializer.data)
 
+
 @api_view(['POST'])
 def storyWatch(request):
     print(request.data) 
@@ -196,6 +197,7 @@ def storyWatch(request):
 
     return Response(200)
 
+
 @api_view(['GET'])
 def getCurStory(request,id):
     print('lol in stry',request.data)
@@ -213,6 +215,7 @@ def subComment(request):
     instance = Posts.objects.get(id = request.data['postid'])
     res_serializer = PostSerializer(instance)
     return Response(res_serializer.data)
+
 
 
 @api_view(['POST'])
@@ -261,6 +264,7 @@ def getUserPosts(request,id):
         posts = PremiumPurchases.objects.filter(userid=id).order_by("-id")
         serializers = MyPurchases(posts,many=True)
         return Response(serializers.data)
+
 
 @api_view(['GET'])
 def getOwnStory(request,id):
@@ -312,7 +316,7 @@ def ProfileCounts(request,id):
     
 
 @api_view(['POST'])
-def dummyPurchase(request):
+def     dummyPurchase(request):
     data=request.data
     serializer = PrimeSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
