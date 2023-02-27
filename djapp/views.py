@@ -456,6 +456,7 @@ def emailValidate(request):
     token = request.data['id']
     username = request.data['username']
     try :
+        print('heeeeere')
         test = User.objects.get(first_name=username)
         test.is_verified = True
         test.save()
