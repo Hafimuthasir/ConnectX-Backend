@@ -132,7 +132,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'connectx2',
-        'USER':'connectx2db',
+        'USER':'connectxadmin',
         'PASSWORD':'admin',
         'HOST':'localhost'
     }
