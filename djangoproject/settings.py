@@ -12,8 +12,13 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+import os
+
+
+load_dotenv()
 
 
 # Quick-start development settings - unsuitable for production
@@ -126,8 +131,8 @@ CHANNEL_LAYERS = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'connectxdb',
-        'USER':'connectuser',
+        'NAME': 'pl9',
+        'USER':'postgres',
         'PASSWORD':'admin',
         'HOST':'localhost'
     }
@@ -188,12 +193,12 @@ UNICODE_JSON = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER='33live4code33@gmail.com'
-EMAIL_HOST_PASSWORD='updhtjsosdvrwaok'
+EMAIL_HOST_USER='dragunovhaunted@gmail.com'
+EMAIL_HOST_PASSWORD= os.getenv('EMAIL_PASSWORD')
 EMAIL_USE_TLS = True
 
-AWS_ACCESS_KEY_ID = 'AKIA2F2N7KFNB5MFK5HF'
-AWS_SECRET_ACCESS_KEY = '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'
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = 'dconnect-bucket-2'
 
 AWS_S3_FILE_OVERWRITE = False

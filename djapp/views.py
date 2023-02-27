@@ -40,7 +40,7 @@ def register(request):
         
         checkem=User.objects.filter(email=email)
         if checkem:
-            return Response({'error':'email already exist'},status=status.HTTP_409_CONFLICT)
+            return Response({'error':'email already exist..!Pls Login'},status=status.HTTP_409_CONFLICT)
         else:
             
             serializer = UserSerializers(data=request.data,partial=True)
@@ -49,6 +49,8 @@ def register(request):
             else:
                return Response(serializer.errors,status=status.HTTP_406_NOT_ACCEPTABLE) 
             send_mail(email,username)
+            # if mail_status == "failed":
+            #     return Response({'error':"verification email sending failed..! limit exceeded"},status=status.HTTP_429_TOO_MANY_REQUESTS)
             return Response(200)
         
         
@@ -57,10 +59,14 @@ def send_mail(email,username):
     myuuid = uuid.uuid4()
     # baseUrl = "http://localhost:3000/emailverification/"
     message = "https://master.d3emc9vq9tg0sv.amplifyapp.com/emailverification/"+str(myuuid)+"/"+username
-    email_from = "33live4code33@gmail.com"
+    email_from = "dragunovhaunted@gmail.com"
     recipeint = [email]
     email = EmailMessage(subject=subject,body=message,to=recipeint)
-    email.send()  
+    try:
+        email.send() 
+        return('sent') 
+    except:
+        return('failed')
         
 
 # @api_view(['POST'])
@@ -316,7 +322,7 @@ def ProfileCounts(request,id):
     
 
 @api_view(['POST'])
-def     dummyPurchase(request):
+def dummyPurchase(request):
     data=request.data
     serializer = PrimeSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
