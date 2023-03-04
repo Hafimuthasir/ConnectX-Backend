@@ -25,12 +25,18 @@ load_dotenv()
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-4^a=xxmslgin-)60h_)z_9ypf6%+tc9q@feas*m2pr@r1@1k7o'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['107.22.145.144','localhost','grapicscard.ga','www.grapicscard.ga','']
+ALLOWED_HOSTS = [
+                'localhost',
+                 os.getenv('BACKEND_IP'),
+                 'grapicscard.ga',
+                 'www.grapicscard.ga',
+                 ''                 
+                 ]
 
 
 # Application definition
@@ -131,9 +137,9 @@ CHANNEL_LAYERS = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'connectx2',
-        'USER':'connectxadmin',
-        'PASSWORD':'admin',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD':os.getenv('DB_PASSWORD'),
         'HOST':'localhost'
     }
 }
@@ -185,7 +191,7 @@ CORS_ORGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = (
   'http://localhost:3000',
-  'https://master.d3emc9vq9tg0sv.amplifyapp.com',
+   os.getenv('FRONTEND_URL')
 )
 
 UNICODE_JSON = True
@@ -193,7 +199,7 @@ UNICODE_JSON = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER='dragunovhaunted@gmail.com'
+EMAIL_HOST_USER=os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD= os.getenv('EMAIL_PASSWORD')
 EMAIL_USE_TLS = True
 
