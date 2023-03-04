@@ -3,6 +3,9 @@ from .models import Chat,Room
 from asgiref.sync import async_to_sync
 from djapp.models import User
 import json
+import django
+
+django.setup()
 
 class ChatConsumer(WebsocketConsumer):
     def connect(self):

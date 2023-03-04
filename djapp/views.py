@@ -59,6 +59,7 @@ def send_mail(email,username):
     myuuid = uuid.uuid4()
     # baseUrl = "http://localhost:3000/emailverification/"
     message = "https://master.d3emc9vq9tg0sv.amplifyapp.com/emailverification/"+str(myuuid)+"/"+username
+    
     email_from = "dragunovhaunted@gmail.com"
     recipeint = [email]
     email = EmailMessage(subject=subject,body=message,to=recipeint)
@@ -163,9 +164,8 @@ class uploadStory(APIView):
 
 
 @api_view(['GET'])
-# @permission_classes([IsAuthenticated])
 def feedPosts(request):
-    print('lol in feed')
+    print('lol in feed',request.headers)
     allPost = Posts.objects.all().order_by('-id')
     serializer = PostSerializer(allPost,many=True)
     return Response(serializer.data)
